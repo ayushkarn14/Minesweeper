@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .parent {
+            width: 70vw;
+            height: 70vw;
+            max-height: 80vh;
+            max-width: 80vh;
+            display: block;
+            margin: auto;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+
+        }
+
+        .child {
+            border-radius: 5%;
+            margin: 0.28%;
+            width: 5.69%;
+            height: 5.69%;
+            display: inline-block;
+            text-align: center;
+            font-size: min(2.8vw, 3.2vh);
+            font-family: 'Poppins', sans-serif;
+            vertical-align: top;
+            padding: 0;
+            background-color: rgb(218, 218, 218);
+            border: none;
+        }
+
+        .child:hover {
+            cursor: pointer;
+            background-color: rgb(207, 207, 207);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 50px;
+        }
+
+        h2 {
+            margin-top: 50px;
+            position: relative;
+            left: calc(45vw);
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            width: fit-content;
+        }
+
+        #time_h {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Minesweeper</h1>
+    <div class="parent"></div>
+    <h2 id="flag_h">🚩 <span id="flag">0</span>/40</h2>
+    <h2 id="time_h">Time:<span id="time"></span></h2>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="index.js"></script>
+    <script src="playing.js"></script>
+</body>
+
+</html>
