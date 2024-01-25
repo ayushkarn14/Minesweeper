@@ -22,11 +22,15 @@ $(".parent div").on('contextmenu', function (e) {
     if (grid[x][y] != -2 && flags < numBombs) {
 
         if (grid2[x][y] != -3) {
+            if (navigator.vibrate)
+                navigator.vibrate(5);
             $(this).text("🚩");
             flags++;
             grid2[x][y] = -3;//-3 for flag
         }
         else {
+            if (navigator.vibrate)
+                navigator.vibrate(5);
             $(this).text("");
             flags--;
             grid2[x][y] = 0;
@@ -146,7 +150,7 @@ function highscore() {
         person = prompt("New Top 10 🎉🎉!! Enter name : ", "name");
     // console.log(person);
     $.ajax({
-        url: 'http://localhost:3000/data', // replace with your server URL
+        url: 'https://ddwm3wj8-3000.inc1.devtunnels.ms/data', // replace with your server URL
         type: 'POST',
         data: {
             name: person,
