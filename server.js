@@ -3,19 +3,19 @@ const fs = require('fs');
 const qs = require('querystring');
 const mysql = require('mysql');
 
-const conn = mysql.createConnection({
-    host: 'sql6.freemysqlhosting.net',
-    user: 'sql6679731',
-    password: 'UN7U8nwptb',
-    database: 'sql6679731',
-    port: '3306'
-});
 // const conn = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'minesweeper'
+//     host: 'sql6.freemysqlhosting.net',
+//     user: 'sql6679731',
+//     password: 'UN7U8nwptb',
+//     database: 'sql6679731',
+//     port: '3306'
 // });
+const conn = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'minesweeper'
+});
 
 conn.connect((err) => {
     if (err) {
@@ -37,7 +37,7 @@ function makeTable(resp) {
     }
     t += '</tbody> </table> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> <script src="jquery-3.7.1.min.js"></script> <script src="index.js"></script> <script src="playing.js"></script></body></html>';
     return t;
-    // return "<h1>Please be patient, I'm debugging";
+    // return "<h1>New link : <a href='https://puce-busy-lovebird.cyclic.app/'>https://puce-busy-lovebird.cyclic.app/</a></h1><br><h2>This url will be scrapped so store the new link somewhere</h2>";
 }
 
 const server = http.createServer((req, res) => {
@@ -50,6 +50,7 @@ const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': 'text/javascript' });
                 res.write(data);
+                conn.end();
                 res.end();
             }
         });
@@ -58,10 +59,12 @@ const server = http.createServer((req, res) => {
         fs.readFile('jquery-3.7.1.min.js', (err, data) => {
             if (err) {
                 res.statusCode = 500;
+                conn.end();
                 res.end('Internal Server Error');
             } else {
                 res.writeHead(200, { 'Content-Type': 'text/javascript' });
                 res.write(data);
+                conn.end();
                 res.end();
             }
         });
@@ -70,10 +73,12 @@ const server = http.createServer((req, res) => {
         fs.readFile('playing.js', (err, data) => {
             if (err) {
                 res.statusCode = 500;
+                conn.end();
                 res.end('Internal Server Error');
             } else {
                 res.writeHead(200, { 'Content-Type': 'text/javascript' });
                 res.write(data);
+                conn.end();
                 res.end();
             }
         });
@@ -89,6 +94,7 @@ const server = http.createServer((req, res) => {
                 res.setHeader('Content-Type', 'text/html');
                 res.write(makeTable(resp));
             }
+            conn.end();
             res.end();
             // fs.readFile('index.html', (err, data) => {
             //     if (err) {
@@ -114,12 +120,14 @@ const server = http.createServer((req, res) => {
                 if (err) console.log(err);
                 else console.log("Entry added");
             })
+            conn.end();
             res.end();
         });
     }
     else {
         res.setHeader('Content-Type', 'text/html');
         res.statusCode = 404;
+        conn.end();
         res.end("Page not found");
     }
 });
