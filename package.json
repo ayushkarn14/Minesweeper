@@ -1,0 +1,24 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayushkarn14/Minesweeper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayushkarn14/Minesweeper/issues"
+  },
+  "homepage": "https://github.com/ayushkarn14/Minesweeper#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}

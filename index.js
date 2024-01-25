@@ -4,7 +4,7 @@ for (let i = 0; i < 16 * 16; i++)
 
 
 const numRows = 16;
-const numBombs = 40;
+const numBombs = 30;
 
 const grid = Array.from({ length: numRows }, () => Array(numRows).fill(0));
 
@@ -42,4 +42,4 @@ for (let i = 0; i < numRows; i++) {
         }
     }
 }
-console.log(grid);
+// console.log(grid);

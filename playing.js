@@ -8,7 +8,7 @@ for (let i = 0; i < numRows; i++) {
         grid3[i][j] = grid[i][j];
     }
 }
-console.log(grid3);
+// console.log(grid3);
 $(".parent div").on('contextmenu', function (e) {
     if (!timer_running) {
         starttimer();
@@ -19,18 +19,20 @@ $(".parent div").on('contextmenu', function (e) {
     let index = $(this).index();
     let x = Math.floor(index / 16);
     let y = index % 16;
+    if (grid[x][y] != -2 && flags < numBombs) {
 
-    if (grid2[x][y] != -3) {
-        $(this).text("🚩");
-        flags++;
-        grid2[x][y] = -3;//-3 for flag
+        if (grid2[x][y] != -3) {
+            $(this).text("🚩");
+            flags++;
+            grid2[x][y] = -3;//-3 for flag
+        }
+        else {
+            $(this).text("");
+            flags--;
+            grid2[x][y] = 0;
+        }
+        $("#flag").text(flags);
     }
-    else {
-        $(this).text("");
-        flags--;
-        grid2[x][y] = 0;
-    }
-    $("#flag").text(flags);
 });
 
 $('.parent div').click(function () {
@@ -39,14 +41,11 @@ $('.parent div').click(function () {
         timer_running = true;
     }
     let index = $(this).index();
-    // console.log(index);
 
     let x = Math.floor(index / 16);
     let y = index % 16;
-    // console.log(x, y);
 
     if (grid2[x][y] != -3) {
-        //check for bomb
         if (grid[x][y] == -1) {
             $('.parent div').eq(index).text("💣");
             setTimeout(() => {
@@ -55,17 +54,13 @@ $('.parent div').click(function () {
             }, 500);
 
         }
-        //if bomb then game over
-
-        //0 then reveal all adjacent 0s
         else if (grid[x][y] == 0) {
             revealZeros(x, y);
         }
 
         else if (grid[x][y] == -2) {
-            console.log("already revealed")
+            // console.log("already revealed")
         }
-        //number then reveal just the cell
         else {
             $('.parent div').eq(index).text(grid[x][y]);
             grid[x][y] = -2;
@@ -81,7 +76,7 @@ function revealZeros(x, y) {
     }
     if (grid[x][y] == 0) {
         $(".parent div").eq(x * 16 + y).css({ "background-color": "#f0f0f0" });
-        grid[x][y] = -2; // Mark the cell as revealed
+        grid[x][y] = -2;
         revealedCells++;
     }
     let directions = [
@@ -93,15 +88,15 @@ function revealZeros(x, y) {
         let newX = x + direction[0];
         let newY = y + direction[1];
 
-        // Check if the new coordinates are valid
+
         if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
-            // If the cell contains 0, reveal it and check its neighbors
+
             if (grid[newX][newY] >= 0) {
                 if (grid[newX][newY] == 0)
                     $(".parent div").eq(newX * 16 + newY).css({ "background-color": "#f0f0f0" })
                 else
                     $('.parent div').eq(newX * 16 + newY).text(grid[newX][newY]);
-                grid[newX][newY] = -2; // Mark the cell as revealed
+                grid[newX][newY] = -2;
                 revealedCells++;
                 revealZeros(newX, newY);
             }
@@ -109,10 +104,11 @@ function revealZeros(x, y) {
     }
 }
 
+let s = 0;
+let m = 0;
 function starttimer() {
+    m = 0, s = 0;
     let t = "";
-    let s = 0;
-    let m = 0;
     let interval = setInterval(() => {
         t = "";
         s++;
@@ -121,10 +117,47 @@ function starttimer() {
         }
         t = " " + m + ":" + s;
         $("#time").text(t);
-        if (revealedCells == 256 - 40) {
+        if (revealedCells == 256 - numBombs) {
             // console.log(m + ":" + s);
+            let str = $('td:last').text();
+            let min = str.split(" ")[0].substr(0, str.split(" ")[0].length - 1);
+            let sec = str.split(" ")[1].substr(0, str.split(" ")[1].length - 1);
+            if (min * 60 + sec > m * 60 + s) {
+                highscore();
+            }
+            else {
+                window.alert("Completed in " + m + " mins " + s + " seconds. Congratulations!");
+            }
             clearInterval(interval);
         }
-        console.log("Revealed : " + revealedCells);
+        // console.log("Revealed : " + revealedCells);
     }, 1000)
+}
+
+
+function highscore() {
+    let person = "";
+    let first = $("td").eq(2).text()
+    let min = first.split(" ")[0].substr(0, first.split(" ")[0].length - 1);
+    let sec = first.split(" ")[1].substr(0, first.split(" ")[1].length - 1);
+    if (min * 60 + sec > m * 60 + s)
+        person = prompt("New Highscore 🎉🎉!! Enter name : ", "name");
+    else
+        person = prompt("New Top 10 🎉🎉!! Enter name : ", "name");
+    // console.log(person);
+    $.ajax({
+        url: 'http://localhost:3000/data', // replace with your server URL
+        type: 'POST',
+        data: {
+            name: person,
+            time: m * 60 + s,
+        },
+        success: function (response) {
+            // console.log(response);
+            location.reload();
+        },
+        error: function (error) {
+            // console.error(error);
+        }
+    });
 }
