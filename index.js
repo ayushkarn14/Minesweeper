@@ -1,3 +1,7 @@
+$(".parent").on("contextmenu", function (e) {
+    e.preventDefault();
+});
+
 //making squares
 for (let i = 0; i < 16 * 16; i++)
     $(".parent").append("<div class=child></div>");
