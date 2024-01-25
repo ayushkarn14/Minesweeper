@@ -193,7 +193,7 @@ function highscore() {
         person = prompt("New Top 10 🎉🎉!! Enter name : ", "name");
     // console.log(person);
     $.ajax({
-        url: 'https://ddwm3wj8-3000.inc1.devtunnels.ms/data', // replace with your server URL
+        url: 'https://puce-busy-lovebird.cyclic.app/data', // replace with your server URL
         type: 'POST',
         data: {
             name: person,
