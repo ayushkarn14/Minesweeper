@@ -4,11 +4,18 @@ const qs = require('querystring');
 const mysql = require('mysql');
 
 const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'minesweeper'
+    host: 'sql6.freemysqlhosting.net',
+    user: 'sql6679731',
+    password: 'UN7U8nwptb',
+    database: 'sql6679731',
+    port: '3306'
 });
+// const conn = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'minesweeper'
+// });
 
 conn.connect((err) => {
     if (err) {
