@@ -64,6 +64,49 @@ $('.parent div').click(function () {
 
         else if (grid[x][y] == -2) {
             // console.log("already revealed")
+            let directions = [
+                [-1, -1], [-1, 0], [-1, 1],
+                [0, -1], [0, 1],
+                [1, -1], [1, 0], [1, 1]
+            ];
+            let fc = 0;
+            for (let d of directions) {
+                let X = x + d[0];
+                let Y = y + d[1];
+                if (X >= 0 && X < numRows && Y >= 0 && Y < numRows) {
+                    if (grid2[X][Y] == -3)
+                        fc++;
+                }
+            }
+            // console.log(fc);
+
+            if (fc == grid3[x][y]) {
+                for (let d of directions) {
+                    let X = x + d[0];
+                    let Y = y + d[1];
+                    if (X >= 0 && X < numRows && Y >= 0 && Y < numRows) {
+                        if (grid[X][Y] == -1 && grid2[X][Y] != -3) {//if bomb
+                            $('.parent div').eq(X * 16 + Y).text("💣");
+                            setTimeout(() => {
+                                window.alert("Game Over");
+                                location.reload();
+                            }, 500);
+                        }
+                        else if (grid[X][Y] > 0 && grid2[X][Y] != -3) {//if number
+                            $('.parent div').eq(X * 16 + Y).text(grid[X][Y]);
+                            grid[X][Y] = -2;
+                            revealedCells++;
+                        }
+                        else if (grid2[X][Y] != -3) {//if zero
+                            revealZeros(X, Y);
+                        }
+                        else {
+
+                        }
+
+                    }
+                }
+            }
         }
         else {
             $('.parent div').eq(index).text(grid[x][y]);
