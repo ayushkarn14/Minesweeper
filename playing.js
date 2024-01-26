@@ -19,24 +19,27 @@ $(".parent div").on('contextmenu', function (e) {
     let index = $(this).index();
     let x = Math.floor(index / 16);
     let y = index % 16;
-    if (grid[x][y] != -2 && flags < numBombs) {
+    if (grid[x][y] != -2 && flags < numBombs && grid2[x][y] != -3) {
 
-        if (grid2[x][y] != -3) {
-            if (navigator.vibrate)
-                navigator.vibrate(5);
-            $(this).text("🚩");
-            flags++;
-            grid2[x][y] = -3;//-3 for flag
-        }
-        else {
-            if (navigator.vibrate)
-                navigator.vibrate(5);
-            $(this).text("");
-            flags--;
-            grid2[x][y] = 0;
-        }
-        $("#flag").text(flags);
+        if (navigator.vibrate)
+            navigator.vibrate(5);
+        $(this).text("🚩");
+        flags++;
+        grid2[x][y] = -3;//-3 for flag
+
+
     }
+    else if (grid2[x][y] == -3 && grid[x][y] != -2) {
+        if (navigator.vibrate)
+            navigator.vibrate(5);
+        $(this).text("");
+        flags--;
+        grid2[x][y] = 0;
+    }
+    else {
+
+    }
+    $("#flag").text(flags);
 });
 
 $('.parent div').click(function () {
@@ -184,7 +187,7 @@ function starttimer() {
 
 function highscore() {
     let person = "";
-    let first = $("td").eq(2).text()
+    let first = $("td").eq(2).text();
     let min = first.split(" ")[0].substr(0, first.split(" ")[0].length - 1);
     let sec = first.split(" ")[1].substr(0, first.split(" ")[1].length - 1);
     if (min * 60 + sec > m * 60 + s)
