@@ -172,7 +172,7 @@ function starttimer() {
             let str = $('td:last').text();
             let min = str.split(" ")[0].substr(0, str.split(" ")[0].length - 1);
             let sec = str.split(" ")[1].substr(0, str.split(" ")[1].length - 1);
-            if (min * 60 + sec > m * 60 + s) {
+            if (parseInt(min) * 60 + parseInt(sec) > m * 60 + s) {
                 highscore();
             }
             else {
@@ -190,10 +190,10 @@ function highscore() {
     let first = $("td").eq(2).text();
     let min = first.split(" ")[0].substr(0, first.split(" ")[0].length - 1);
     let sec = first.split(" ")[1].substr(0, first.split(" ")[1].length - 1);
-    if (min * 60 + sec > m * 60 + s)
-        person = prompt("New Highscore 🎉🎉!! Enter name : ", "name");
+    if (parseInt(min) * 60 + parseInt(sec) > m * 60 + s)
+        person = prompt("New Highscore " + m + "m " + s + "s🎉🎉!! Enter name : ", "name");
     else
-        person = prompt("New Top 10 🎉🎉!! Enter name : ", "name");
+        person = prompt("New Top 10 " + m + "m " + s + "s 🎉🎉!! Enter name : ", "name");
     // console.log(person);
     $.ajax({
         url: 'https://puce-busy-lovebird.cyclic.app/data', // replace with your server URL
