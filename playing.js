@@ -142,7 +142,7 @@ function revealZeros(x, y) {
         let newY = y + direction[1];
 
 
-        if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
+        if ((newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) && grid2[newX][newY] != -3) {
 
             if (grid[newX][newY] >= 0) {
                 if (grid[newX][newY] == 0)
