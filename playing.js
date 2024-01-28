@@ -1,6 +1,7 @@
 let timer_running = false;
 let revealedCells = 0;
 let flags = 0;
+let arr = ["#00000000", "#9effba", "#9efffc", "#9eaeff", "#ff9eb0", "#ff4242", "#7eff42", "#427eff", "#972bc2"]
 let grid2 = Array.from({ length: numRows }, () => Array(numRows).fill(0));
 let grid3 = Array.from({ length: numRows }, () => Array(numRows).fill(0));
 for (let i = 0; i < numRows; i++) {
@@ -97,6 +98,7 @@ $('.parent div').click(function () {
                         }
                         else if (grid[X][Y] > 0 && grid2[X][Y] != -3) {//if number
                             $('.parent div').eq(X * 16 + Y).text(grid[X][Y]);
+                            $('.parent div').eq(X * 16 + Y).css("background-color", arr[grid[X][Y]]);;
                             grid[X][Y] = -2;
                             revealedCells++;
                         }
@@ -113,6 +115,7 @@ $('.parent div').click(function () {
         }
         else {
             $('.parent div').eq(index).text(grid[x][y]);
+            $('.parent div').eq(index).css("background-color", arr[grid[x][y]]);;
             grid[x][y] = -2;
             revealedCells++;
         }
@@ -144,8 +147,10 @@ function revealZeros(x, y) {
             if (grid[newX][newY] >= 0) {
                 if (grid[newX][newY] == 0)
                     $(".parent div").eq(newX * 16 + newY).css({ "background-color": "#f0f0f0" })
-                else
+                else {
                     $('.parent div').eq(newX * 16 + newY).text(grid[newX][newY]);
+                    $('.parent div').eq(newX * 16 + newY).css("background-color", arr[grid[newX][newY]]);
+                }
                 grid[newX][newY] = -2;
                 revealedCells++;
                 revealZeros(newX, newY);
@@ -176,7 +181,7 @@ function starttimer() {
                 highscore();
             }
             else {
-                window.alert("Completed in " + m + " mins " + s + " seconds. Congratulations!");
+                window.alert("Completed in " + m + " mins " + (s - 1) + " seconds. Congratulations!");
             }
             clearInterval(interval);
         }
@@ -191,16 +196,16 @@ function highscore() {
     let min = first.split(" ")[0].substr(0, first.split(" ")[0].length - 1);
     let sec = first.split(" ")[1].substr(0, first.split(" ")[1].length - 1);
     if (parseInt(min) * 60 + parseInt(sec) > m * 60 + s)
-        person = prompt("New Highscore " + m + "m " + s + "s🎉🎉!! Enter name : ", "name");
+        person = prompt("New Highscore " + m + "m " + (s - 1) + "s🎉🎉!! Enter name : ", "name");
     else
-        person = prompt("New Top 10 " + m + "m " + s + "s 🎉🎉!! Enter name : ", "name");
+        person = prompt("New Top 10 " + m + "m " + (s - 1) + "s 🎉🎉!! Enter name : ", "name");
     // console.log(person);
     $.ajax({
-        url: 'https://puce-busy-lovebird.cyclic.app/data', // replace with your server URL
+        url: 'https://ddwm3wj8-3000.inc1.devtunnels.ms/data', // replace with your server URL
         type: 'POST',
         data: {
             name: person,
-            time: m * 60 + s,
+            time: m * 60 + s - 1,
         },
         success: function (response) {
             // console.log(response);

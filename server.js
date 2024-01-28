@@ -13,6 +13,10 @@ const mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
+    // host: 'localhost',
+    // user: 'root',
+    // password: '',
+    // database: 'minesweeper'
     host: 'sql6.freemysqlhosting.net',
     user: 'sql6679731',
     password: 'UN7U8nwptb',
@@ -38,7 +42,7 @@ pool.getConnection(function (err, conn) {
     if (err) throw err; // not connected!
 
     function makeTable(resp) {
-        let t = '<!DOCTYPE html><html lang="en"><head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Minesweeper</title> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> <style> @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap"); * { margin: 0; padding: 0; } .parent { width: 70vw; height: 70vw; max-height: 80vh; max-width: 80vh; display: block; margin: auto; -ms-user-select: none; -webkit-user-select: none; user-select: none; } .child { border-radius: 5%; margin: 0.28%; width: 5.69%; height: 5.69%; display: inline-block; text-align: center; font-size: min(2.8vw, 3.2vh); font-family: "Poppins", sans-serif; vertical-align: top; padding: 0; background-color: rgb(218, 218, 218); border: none; } .child:hover { cursor: pointer; background-color: rgb(207, 207, 207); } h1 { text-align: center; font-family: "Poppins", sans-serif; font-size: 50px; } h2 { margin-top: 50px; position: relative; left: calc(45vw); font-family: "Poppins", sans-serif; font-size: 30px; width: fit-content; } #time_h { margin-top: 10px; } #highscore { width: 50vw; display: block; margin: auto; margin-top: 20px; } @media screen and (max-width: 550px){#highscore {width: 80vw;}.parent{width: 95vw;height:95vw}h1{font-size:25px} h2{font-size:15px} .child{font-size:3.6vw}} </style></head><body> <h1>Minesweeper</h1> <div class="parent"></div> <h2 id="flag_h">🚩 <span id="flag">0</span>/30</h2> <h2 id="time_h">Time:<span id="time"></span></h2> <div id="highscore"> <table class="table"> <thead> <tr> <th scope="col">#</th> <th scope="col">Name</th> <th scope="col">Time</th> </tr> </thead> <tbody>';
+        let t = '<!DOCTYPE html><html lang="en"><head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Minesweeper</title> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> <style> @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap"); * { margin: 0; padding: 0; } .parent { width: 70vw; height: 70vw; max-height: 80vh; max-width: 80vh; display: block; margin: auto; -ms-user-select: none; -webkit-user-select: none; user-select: none; } .child { border-radius: 5%; margin: 0.1%; width: 6.05%; height: 6.05%; display: inline-block; text-align: center; font-size: min(2.8vw, 3.2vh); font-family: "Poppins", sans-serif; vertical-align: top; padding: 0; background-color: rgb(218, 218, 218); border: none; } .child:hover { cursor: pointer; background-color: rgb(207, 207, 207); } h1 { text-align: center; font-family: "Poppins", sans-serif; font-size: 50px; } h2 { margin-top: 50px; position: relative; left: calc(45vw); font-family: "Poppins", sans-serif; font-size: 30px; width: fit-content; } #time_h { margin-top: 10px; } #highscore { width: 50vw; display: block; margin: auto; margin-top: 20px; } @media screen and (max-width: 550px){#highscore {width: 80vw;}.parent{width: 95vw;height:95vw}h1{font-size:25px} h2{font-size:15px} .child{font-size:3.6vw}} </style></head><body> <h1>Minesweeper</h1> <div class="parent"></div> <h2 id="flag_h">🚩 <span id="flag">0</span>/30</h2> <h2 id="time_h">Time:<span id="time"></span></h2> <div id="highscore"> <table class="table"> <thead> <tr> <th scope="col">#</th> <th scope="col">Name</th> <th scope="col">Time</th> </tr> </thead> <tbody>';
 
         for (let i = 0; i < Math.min(resp.length, 10); i++) {
             t += '<tr>';
@@ -108,6 +112,7 @@ pool.getConnection(function (err, conn) {
                 }
 
                 res.end();
+                // conn.release();
                 // fs.readFile('index.html', (err, data) => {
                 //     if (err) {
                 //         res.statusCode = 500;
@@ -132,7 +137,7 @@ pool.getConnection(function (err, conn) {
                     if (err) console.log(err);
                     else console.log("Entry added");
                 })
-
+                // conn.release();
                 res.end();
             });
         }
@@ -148,4 +153,5 @@ pool.getConnection(function (err, conn) {
     server.listen(port, () => {
         console.log(`Server is running on http://localhost:${port}`);
     });
+    conn.release();
 });
