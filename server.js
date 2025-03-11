@@ -13,14 +13,14 @@ const mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
-    // host: 'localhost',
-    // user: 'root',
-    // password: '',
-    // database: 'minesweeper'
-    host: 'sql6.freemysqlhosting.net',
-    user: 'sql6679731',
-    password: 'UN7U8nwptb',
-    database: 'sql6679731',
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'minesweeper'
+    // host: 'sql6.freemysqlhosting.net',
+    // user: 'sql6679731',
+    // password: 'UN7U8nwptb',
+    // database: 'sql6679731',
 });
 
 // const conn = mysql.createConnection({

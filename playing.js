@@ -173,7 +173,8 @@ function starttimer() {
         t = " " + m + ":" + s;
         $("#time").text(t);
         if (revealedCells == 256 - numBombs) {
-            // console.log(m + ":" + s);
+            console.log(m + ":" + s);
+            // let min = m; let sec = s;
             let str = $('td:last').text();
             let min = str.split(" ")[0].substr(0, str.split(" ")[0].length - 1);
             let sec = str.split(" ")[1].substr(0, str.split(" ")[1].length - 1);
@@ -201,7 +202,7 @@ function highscore() {
         person = prompt("New Top 10 " + m + "m " + (s - 1) + "s 🎉🎉!! Enter name : ", "name");
     // console.log(person);
     $.ajax({
-        url: 'https://ddwm3wj8-3000.inc1.devtunnels.ms/data', // replace with your server URL
+        url: 'http://localhost:3000/data', // replace with your server URL
         type: 'POST',
         data: {
             name: person,
